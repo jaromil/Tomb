@@ -210,14 +210,40 @@ get_arg_tomb() {
     # the problem with .tomb.gpg is that decoding by hand using gpg it
     # can override the tomb contents if the key is in the same
     # directory than the tomb
-    if [ $KEY ]; then
-	tombkey=$KEY # commandline -k flag
-	act "tomb key specified manually: $tombkey"
-    elif [ -r ${tombdir}/${tombname}.tomb.key ]; then
+
+
+    # first check if the key sits besides the tomb
+    if [ -r ${tombdir}/${tombname}.tomb.key ]; then
 	tombkey=${tombdir}/${tombname}.tomb.key
 	act "key found for tomb '${tombname}': ${tombkey}"
+	return 0
+    elif [ -z $KEY ]; then
+	error "key not found nor specified for tomb: ${tombname}"
+	return 1
     else
-	error "key not found for tomb '${tombname}'"
+	func "tomb key specified manually: $KEY"
+    fi
+
+    # key was specified, process prefix options
+    if [ "${KEY%//*}" == "bluetooth:" ]; then
+	act "retrieving key from bluetooth"
+	# fetch key from bluetooth, url format: bluetooth://55:33:44:55:66/file/path
+	obexdevpath=${KEY#*//}
+	obexdev=${obexdevpath%%/*}
+	obexpath=${obexdevpath#*/}
+	func "obex device: $obexdev"
+	func "obex path: $obexpath"
+	obexftp -b $obexdev -g $obexpath
+	tombkey="basename $obexpath"
+	# TODO temporary storage in ram
+	# should use a generic method
+    fi
+
+    # here can go more methods to retrieve the key: ssh, web, steg etc.
+    # actually this can be implemented in a different function: get_key
+    
+    if ! [[ -r $tombkey ]]; then
+	error "key not found for tomb ${tombname}"
 	return 1
     fi
     return 0
