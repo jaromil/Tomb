@@ -45,13 +45,13 @@ Tomb can use some optional tools to extend its functionalities:
 
 executable | function
 ---------------------------------------------------------------
-  dcfldd   | show progress while executing long operations
-  steghide | bury and exhume keys inside images
-  resizefs | extend the size of existing tomb volumes
-  qrencode | engrave keys into printable qrcode tags
-  mlocate  | have fast search of file names inside tombs
-  swish++  | have fast search of file contents inside tombs
-  unoconv  | have fast search of contents in PDF and DOC files
+dcfldd   | show progress while executing long operations
+steghide | bury and exhume keys inside images
+resizefs | extend the size of existing tomb volumes
+qrencode | engrave keys into printable qrcode tags
+mlocate  | have fast search of file names inside tombs
+swish++  | have fast search of file contents inside tombs
+unoconv  | have fast search of contents in PDF and DOC files
 
 As for requirements, also optional tools may be easy to install using
 the packages provided by each distribution.
