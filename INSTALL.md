@@ -44,7 +44,7 @@ At this point one can proceed creating a tomb, for instance:
 Tomb can use some optional tools to extend its functionalities:
 
 executable | function
----------------------------------------------------------------
+---------- | ---------------------------------------------------
 dcfldd   | show progress while executing long operations
 steghide | bury and exhume keys inside images
 resizefs | extend the size of existing tomb volumes
